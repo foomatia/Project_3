@@ -47,13 +47,9 @@ def welcome():
         f"/dashboard"
     )
 
-<<<<<<< HEAD
-@app.route("/extract")
-=======
 
 @app.route("/dashboard")
->>>>>>> ryan
-def extract():
+def dashboard():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -65,27 +61,8 @@ def extract():
 
     session.close()
 
-<<<<<<< HEAD
-    # Create a dictionary from the row data and append to a list of all_schools
-    all_schools = []
-    for Web_Link, URN, School_name, Ofsted_phase, Local_authority, Postcode, lat, lon in results:
-        school_dict = {}
-        school_dict["Web_Link"] = Web_Link
-        school_dict["URN"] = URN
-        school_dict["School_name"] = School_name
-        school_dict["Ofsted_phase"] = Ofsted_phase
-        school_dict["Local_authority"] = Local_authority
-        school_dict["Postcode"] = Postcode
-        school_dict["Latitude"] = lat 
-        school_dict["Longitude"] = lon
-        all_schools.append(school_dict)
-
-
-    file2 = open('static/allschools_JSON.json', 'w')
-    file2.write(json.dumps(all_schools))
-=======
     # Convert the df to a JSON file
-    ofsted_data.to_json("Resources/ofsted_data.json", orient='records', indent=4)
+    ofsted_data.to_json("static/ofsted_data.json", orient='records', indent=4)
 
     # Web_Link, URN, School_name, Ofsted_phase, Local_authority, Postcode, lat, lon
 
@@ -105,7 +82,6 @@ def extract():
 
     file2 = open('static/urn_JSON.json', 'w')
     file2.write(json.dumps(urn))
->>>>>>> ryan
     file2.close
 
     file3 = open('static/schoolname_JSON.json', 'w')
@@ -146,7 +122,7 @@ def extract():
     #file4.write(json.dumps(pclass_dict))
     #file4.close
 
-    return render_template('home.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

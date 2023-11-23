@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>West Mids Ofsted Results</title>
+  
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+    <!-- Leaflet JavaScript code -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+
+  </head>
+  <body>
+    <div class="container">
+      <header class="d-flex sticky-top flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <span class="fs-4">West Midlands Ofsted Results</span>
+      </header>
+      <div class="btn-group w-100 align-items-center justify-content-between flex-wrap">
+        <div class="dropdown">
+          <small for="pc_region">Search Postcode Region:</small> <br>
+          <select id="pc_region"></select>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown">
+            <small for="phase">Search School Phase:</small> <br>
+            <select id="phase">
+              <option>Primary</option>
+              <option>Secondary</option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown">
+            <small for="other">Other Dropdown:</small> <br>
+            <select id="other"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Create divider between header and main content -->
+    <div class="vr" style="height: 50px;"></div>
+    <!-- Main content start -->
+    <div class="container">
+      <main>
+        <div id="map-id">Enter map here!</div>
+      </main>
+    </div>
+
+    <!-- Plotly and app.js link -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="../static/js/app.js"></script>
+  </body>
+</html>
