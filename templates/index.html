@@ -30,7 +30,7 @@
   </head>
   <body>
     <div class="container">
-      <header class="d-flex sticky-top flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <span class="fs-4">West Midlands Ofsted Results</span>
       </header>
       <div class="btn-group w-100 align-items-center justify-content-between flex-wrap">
@@ -49,14 +49,19 @@
         </div>
         <div class="dropdown">
           <div class="dropdown">
-            <small for="other">Other Dropdown:</small> <br>
-            <select id="other"></select>
+            <small for="other">Ofsted Rating:</small> <br>
+            <select id="rating">
+              <option value="Outstanding">Outstanding</option>
+              <option value="Good">Good</option>
+              <option value="Requires Improvement">Requires Improvement</option>
+              <option value="Inadequate">Inadequate</option>
+            </select>
           </div>
         </div>
       </div>
     </div>
     <!-- Create divider between header and main content -->
-    <div class="vr" style="height: 50px;"></div>
+    <div class="vr" style="height: 30px;"></div>
     <!-- Main content start -->
     <div class="container">
       <main>
@@ -64,10 +69,8 @@
         <div alt="Map" id="map-id"></div>
 
         <!-- Create divider between map and charts content -->
-        <br/>
         <hr/>
-        <br/>
-        
+                
         <!-- Charts -->
         <div>
           <div id="bar"></div>

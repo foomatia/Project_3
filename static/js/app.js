@@ -146,7 +146,7 @@ function genBarChart(){
         };
 
         // Render the plot
-        Plotly.newPlot("bar", barData, barLayout);
+        Plotly.newPlot("bar", barData, barLayout, {displayModeBar: false});
     
     })
 
