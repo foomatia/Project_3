@@ -116,4 +116,4 @@ initMarkers();
 
 //initMap();
 
-//init();
+init();
