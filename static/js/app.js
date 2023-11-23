@@ -62,7 +62,7 @@ function initMap(primary, secondary, westmids_poly){
     let myMap = L.map("map-id", {
         center : westMids,
         zoom: zoomLevel,
-        layers: [street, primary, secondary]
+        layers: [street, westmids_poly]
   });
 
     // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
@@ -87,7 +87,10 @@ function initMarkers(){
         // Loop through data and populate the arrays
         for (i=0; i < response.length; i++){
             let marker = L.marker([response[i].lat, response[i].lon])
-                .bindPopup(`<h5>${response[i].School_name}</h5></hr>`);
+                .bindPopup(`<h6>${response[i].School_name}</h6></hr>\
+                <b>URN:</b> ${response[i].URN}</br>\
+                <b>Ofsted Rating:</b> ${response[i].Overall_effectiveness}</br>\
+                <a target="_blank" href=${response[i].Web_Link}>Ofsted Reports</a>`);
         
             if (response[i].Ofsted_phase === "Primary"){
                 primary_markers.push(marker);
@@ -111,6 +114,46 @@ function initMarkers(){
         initMap(primary, secondary, westmids_poly);
     });
 };
+
+function genBarChart(){
+
+    // Call JSON
+    d3.json("../static/ofstedcounts_JSON.json").then((data) => {
+        //console.log(data);
+
+        let grades = data.Grades;
+        let values = data.Values
+
+        let barTrace = {
+            x : grades,
+            y : values,
+            type: "bar"
+        };
+
+        // Create array
+        let barData = [barTrace];
+
+        // Apply layout
+        let barLayout = {
+            title: "School Count per Grade",
+            width: "50%",
+            margin:{
+                t : 30,
+                b: 30,
+                r : 10,
+                l: 50
+            }
+        };
+
+        // Render the plot
+        Plotly.newPlot("bar", barData, barLayout);
+    
+    })
+
+    
+};
+
+genBarChart();
 
 initMarkers();
 

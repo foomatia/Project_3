@@ -74,7 +74,10 @@ def dashboard():
     postcode = list(ofsted_data["Postcode"])
     lat = list(ofsted_data["lat"])
     lon = list(ofsted_data["lon"])
-    ofsted_ratings_count = list(ofsted_data["Overall_effectiveness"].value_counts())
+    ofsted_ratings_count = {
+        "Grades" : list(ofsted_data["Overall_effectiveness"].value_counts().index),
+        "Values" : list(ofsted_data["Overall_effectiveness"].value_counts())
+    }
 
     file1 = open('static/weblink_JSON.json', 'w')
     file1.write(json.dumps(web_link))
