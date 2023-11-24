@@ -39,15 +39,15 @@ function initMap(primary, secondary, westmids_poly){
     });
 
     // Create a baseMaps object to hold the lightmap layer.
-    let baseMaps = {
-        Street : street
-    };
+    // let baseMaps = {
+    //     Street : street
+    // };
 
-    // Create an overlayMaps object to hold the markers layers.
-    let overlayMaps = {
-        Primary: primary,
-        Secondary: secondary
-    };
+    // // Create an overlayMaps object to hold the markers layers.
+    // let overlayMaps = {
+    //     Primary: primary,
+    //     Secondary: secondary
+    // };
 
     // Create the map object with options.
     let myMap = L.map("map-id", {
@@ -56,13 +56,32 @@ function initMap(primary, secondary, westmids_poly){
         layers: [street]
   });
 
-    // Add geoJSON to map
-    westmids_poly.addTo(myMap);
+    // Create individual Conditionals Layers
+    let layer1 = primary;
+    let layer2 = secondary;
+    let layer3 = westmids_poly;
+
+    // Create Conditionals LayerGroup
+    let layerGroup = L.layerGroup.conditional()
+                                .addConditionalLayer((level) => level < 10, layer3)
+                                .addConditionalLayer((level) => level >= 10, layer1 && layer2)
+                                .addTo(myMap);
+    
+    // Set up a zoom handler to update conditional layers when the user zooms.
+    var zoomHandler = function(event) {
+        var zoomLevel = myMap.getZoom();
+        console.log(zoomLevel);
+        layerGroup.updateConditionalLayers(zoomLevel);
+     }
+     myMap.on('zoomend', zoomHandler);
+ 
+     // Set initial state of conditional layers
+     layerGroup.updateConditionalLayers(myMap.getZoom());
 
     // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
-    L.control.layers(baseMaps, overlayMaps,{
-        collapsed:false
-    }).addTo(myMap);
+    // L.control.layers(baseMaps, overlayMaps,{
+    //     collapsed:false
+    // }).addTo(myMap);
 };
 
 // Function to gen initMarkers
