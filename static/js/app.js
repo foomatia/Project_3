@@ -1,15 +1,7 @@
 const westMids = [52.478861, -2.256306];
-let zoomLevel = 7.25;
+let zoomLevel = 8;
 
 const jsonFile = "../static/ofsted_data.json";
-
-// d3.json(jsonFile).then((data) => {
-//     // print the first 5 entries
-//     for (let x = 0; x < 5; x++){
-//         console.log(data[x].Postcode);
-//     }
-//     //console.log(data);
-// });
 
 // Function to initialize the dashboard
 function init(){
@@ -18,28 +10,31 @@ function init(){
     d3.json(jsonFile).then((data) => {
 
         // Select the postcode dd menu
-        let pc_dd = d3.selectAll("#pc_region");
+        let county_dd = d3.selectAll("#a_region");
 
         // Loop through the data and create an array of each postcode
-        let postcodes = [];
+        let counties = [];
         for (let i = 0; i < data.length; i++){
-            postcodes.push(data[i].Postcode.split(" ")[0]);
+            counties.push(data[i].Local_authority);
         };
 
         // Get unique postcodes
-        let unique_pcs = [...new Set(postcodes)];
+        let unique_counties = [...new Set(counties)];
             // https://stackoverflow.com/a/14438954/21871037
-        unique_pcs.sort();
+        unique_counties.sort();
 
         // Append the beginning of the postcodes
-        for (i=0; i < unique_pcs.length; i++){
-            pc_dd.append("option").attr("value", unique_pcs[i]).text(unique_pcs[i]);            
+        for (i=0; i < unique_counties.length; i++){
+            county_dd.append("option").attr("value", unique_counties[i]).text(unique_counties[i]);            
         };
     });
-}
+
+    initMarkers();
+
+};
 
 // Function to gen initMap
-function initMap(primary, secondary, westmids_poly){
+function initMap(primary, secondary, westmids, county){
 
     // Create the tile layer that will be the background of our map.
     let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -47,28 +42,52 @@ function initMap(primary, secondary, westmids_poly){
     });
 
     // Create a baseMaps object to hold the lightmap layer.
-    let baseMaps = {
-        Street : street
-    };
+    // let baseMaps = {
+    //     Street : street
+    // };
 
-    // Create an overlayMaps object to hold the markers layers.
-    let overlayMaps = {
-        West_Midlands: westmids_poly,
-        Primary: primary,
-        Secondary: secondary
-    };
+    // // Create an overlayMaps object to hold the markers layers.
+    // let overlayMaps = {
+    //     Primary: primary,
+    //     Secondary: secondary
+    // };
 
     // Create the map object with options.
     let myMap = L.map("map-id", {
         center : westMids,
         zoom: zoomLevel,
-        layers: [street, westmids_poly]
+        layers: [street]
   });
 
+    // Create individual Conditionals Layers
+    let layer1 = primary;
+    let layer2 = secondary;
+    let layer3 = westmids;
+    let layer4 = county;
+
+    // Create Conditionals LayerGroup
+    let layerGroup = L.layerGroup.conditional()
+                                .addConditionalLayer((level) => level <= 9, layer3)
+                                .addConditionalLayer((level) => level >= 9 && level <= 12, layer4)
+                                .addConditionalLayer((level) => level >= 12, layer1)
+                                .addConditionalLayer((level) => level >= 12, layer2)
+                                .addTo(myMap);
+    
+    // Set up a zoom handler to update conditional layers when the user zooms.
+    var zoomHandler = function(event) {
+        var zoomLevel = myMap.getZoom();
+        console.log(zoomLevel);
+        layerGroup.updateConditionalLayers(zoomLevel);
+     }
+     myMap.on('zoomend', zoomHandler);
+ 
+     // Set initial state of conditional layers
+     layerGroup.updateConditionalLayers(myMap.getZoom());
+
     // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
-    L.control.layers(baseMaps, overlayMaps,{
-        collapsed:false
-    }).addTo(myMap);
+    // L.control.layers(baseMaps, overlayMaps,{
+    //     collapsed:false
+    // }).addTo(myMap);
 };
 
 // Function to gen initMarkers
@@ -76,10 +95,12 @@ function initMarkers(){
 
     Promise.all([
     d3.json(jsonFile),
-    d3.json("../static/west_mids.geojson")
+    d3.json("../static/geojson/west_mids.geojson"),
+    d3.json("https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/CTYUA_Apr_2019_UGCB_Great_Britain_2022/FeatureServer/0/query?outFields=%2A&where=ctyua19cd%3D%27E08000025%27+OR+ctyua19cd%3D%27E10000028%27+OR+ctyua19cd%3D%27E10000031%27+OR+ctyua19cd%3D%27E10000034%27+OR+ctyua19cd%3D%27E06000051%27+OR+ctyua19cd%3D%27E08000028%27+OR+ctyua19cd%3D%27E08000026%27++++OR+ctyua19cd%3D%27E08000030%27+OR+ctyua19cd%3D%27E08000027%27+OR+ctyua19cd%3D%27E06000019%27+OR+ctyua19cd%3D%27E08000031%27+OR+ctyua19cd%3D%27E06000021%27+OR+ctyua19cd%3D%27E08000029%27+OR+ctyua19cd%3D%27E06000020%27&f=geojson&geometryType=esriGeometryPolygon")
     ])
-    .then(([response,geoData]) => {
+    .then(([response, geoData, geoCounty]) => {
         //console.log(geoData.features[0].geometry.coordinates);
+
         // Initialize an array for the primary and secondary markers
         let primary_markers = [];
         let secondary_markers = [];
@@ -99,19 +120,40 @@ function initMarkers(){
             }
         }
 
-        let westmids = L.geoJSON(geoData,{
+        // Create the West Midlands polygon using the geoJSON data
+        let westmids_poly = L.geoJSON(geoData,{
             style: {
-                color: "blue",
+                color: "purple",
+                weight: 1.5,
+                opacity: 1,
+                fillColor: "rgb(126,185,229)",
+                fillOpacity: 0.25
+            }
+        })
+            .bindPopup("<h6>West Midlands Region</h6>");
+
+
+        // Create the county polygons and bind the county name to each polygon
+        function onEachFeature(feature, layer) {
+            layer.bindPopup(`<small>${feature.properties.ctyua19nm}</small>`);
+        }
+
+        let county_poly = L.geoJSON(geoCounty,{
+            onEachFeature : onEachFeature,
+            style:{
+                color: "black",
+                weight: 1,
+                opacity: 1,
                 fillColor: "blue",
-                fillOpacity: 1
+                fillOpacity: 0.25
             }
         });
         
-        let westmids_poly = L.layerGroup(westmids);
+        //let westmids_poly = L.layerGroup(westmids);
         let primary = L.layerGroup(primary_markers);
         let secondary = L.layerGroup(secondary_markers);
 
-        initMap(primary, secondary, westmids_poly);
+        initMap(primary, secondary, westmids_poly, county_poly);
     });
 };
 
@@ -135,7 +177,7 @@ function genBarChart(){
 
         // Apply layout
         let barLayout = {
-            title: "School Count per Grade",
+            title: "School Count per Ofsted Grade in West Midlands Region",
             width: "50%",
             margin:{
                 t : 30,
@@ -154,9 +196,5 @@ function genBarChart(){
 };
 
 genBarChart();
-
-initMarkers();
-
-//initMap();
 
 init();
