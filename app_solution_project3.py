@@ -69,7 +69,10 @@ def dashboard():
     web_link = list(ofsted_data["Web_Link"])
     urn = list(ofsted_data["URN"])
     school_name = list(ofsted_data["School_name"])
-    ofsted_phase = list(ofsted_data["Ofsted_phase"])
+    ofsted_phase = {
+        "Phase": list(ofsted_data["Ofsted_phase"].value_counts().index),
+        "Count": list(ofsted_data["Ofsted_phase"].value_counts())
+        }
     local_auth = list(ofsted_data["Local_authority"])
     postcode = list(ofsted_data["Postcode"])
     lat = list(ofsted_data["lat"])
@@ -77,7 +80,7 @@ def dashboard():
     ofsted_ratings_count = {
         "Grades" : list(ofsted_data["Overall_effectiveness"].value_counts().index),
         "Values" : list(ofsted_data["Overall_effectiveness"].value_counts())
-    }
+        }
 
     file1 = open('static/weblink_JSON.json', 'w')
     file1.write(json.dumps(web_link))

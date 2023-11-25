@@ -75,8 +75,7 @@ function initMap(primary, secondary, westmids, county){
     
     // Set up a zoom handler to update conditional layers when the user zooms.
     var zoomHandler = function(event) {
-        var zoomLevel = myMap.getZoom();
-        console.log(zoomLevel);
+        var zoomLevel = myMap.getZoom();        
         layerGroup.updateConditionalLayers(zoomLevel);
      }
      myMap.on('zoomend', zoomHandler);
@@ -178,7 +177,7 @@ function genBarChart(){
         // Apply layout
         let barLayout = {
             title: "School Count per Ofsted Grade in West Midlands Region",
-            width: "50%",
+            width: 600,
             margin:{
                 t : 30,
                 b: 30,
@@ -194,6 +193,48 @@ function genBarChart(){
 
     
 };
+
+function genPieChart(){
+
+    // Call JSON
+    d3.json("../static/ofstedphase_JSON.json").then((data) => {
+        //console.log(data);
+
+        let phase = data.Phase;
+        let count = data.Count;
+
+        let pieTrace = {
+            values : count,
+            labels : phase,
+            type: "pie",
+            textinfo: "label+value"
+        };
+
+        // Create array
+        let pieData = [pieTrace];
+
+        // Apply layout
+        let pieLayout = {
+            title: "Ofsted Phases",
+            width: 500,
+            height: 500,
+            margin:{
+                t : 30,
+                b: 30,
+                r : 10,
+                l: 50
+            }
+        };
+
+        // Render the plot
+        Plotly.newPlot("pie", pieData, pieLayout, {displayModeBar: false});
+    
+    })
+
+    
+};
+
+genPieChart();
 
 genBarChart();
 
