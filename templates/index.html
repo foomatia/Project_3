@@ -39,25 +39,20 @@
       <div class="btn-group w-100 align-items-center justify-content-between flex-wrap">
         <div class="dropdown">
           <small for="a_region">Search Authority Region:</small> <br>
-          <select id="a_region">
+          <select id="a_region" onchange="regionUpdate(this.value)">
             <option value="">Select a Region</option>
           </select>
         </div>
         <div class="dropdown">
             <small for="phase">Search School Phase:</small> <br>
             <select id="phase">
-              <option>Primary</option>
-              <option>Secondary</option>
+              <option value="">Select a Phase</option>
+              <option value="Primary">Primary</option>
+              <option value="Secondary">Secondary</option>
             </select>        
         </div>
-        <div class="dropdown">        
-            <small for="other">Ofsted Rating:</small> <br>
-            <select id="rating">
-              <option value="Outstanding">Outstanding</option>
-              <option value="Good">Good</option>
-              <option value="Requires Improvement">Requires Improvement</option>
-              <option value="Inadequate">Inadequate</option>
-            </select>        
+        <div class="dropdown">           
+            <button id="reset" type="button" class="btn btn-danger" onclick="init()">Reset Dashboard</button>      
         </div>
       </div>
     </div>
@@ -89,6 +84,6 @@
     <!-- Plotly and app.js link -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="../static/js/app.js"></script>
-    <!-- <script src="../static/js/app_test.js"></script> -->
+    <script src="../static/js/update.js"></script>
   </body>
 </html>

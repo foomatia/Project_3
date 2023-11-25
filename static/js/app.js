@@ -6,11 +6,16 @@ const jsonFile = "../static/ofsted_data.json";
 // Function to initialize the dashboard
 function init(){
 
+    d3.select("#reset").attr("hidden", "hidden");
+
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {
 
         // Select the postcode dd menu
-        let county_dd = d3.selectAll("#a_region");
+        let county_dd = d3.selectAll("#a_region").html("");
+
+        // Add Select a Region
+        county_dd.append("option").attr("value","").text("Select a Region");
 
         // Loop through the data and create an array of each postcode
         let counties = [];
@@ -30,6 +35,9 @@ function init(){
     });
 
     initMarkers();
+
+    genBarChart();
+    genPieChart();
 
 };
 
