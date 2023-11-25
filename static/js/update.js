@@ -13,8 +13,6 @@ function regionUpdate(region){
     // lowercase and space removed region
     let reg_file = region.toLowerCase().replaceAll(" ","_");
 
-    console.log(reg_file);
-
     // load in promises
     Promise.all([
         d3.json(jsonFile),

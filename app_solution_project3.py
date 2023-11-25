@@ -78,9 +78,15 @@ def dashboard():
     lat = list(ofsted_data["lat"])
     lon = list(ofsted_data["lon"])
     ofsted_ratings_count = {
-        "Grades" : list(ofsted_data["Overall_effectiveness"].value_counts().index),
-        "Values" : list(ofsted_data["Overall_effectiveness"].value_counts())
+        "Primary":{
+            "Grades" : list(ofsted_data["Overall_effectiveness"].loc[ofsted_data['Ofsted_phase'] == "Primary"].value_counts().index),
+            "Values" : list(ofsted_data["Overall_effectiveness"].loc[ofsted_data['Ofsted_phase'] == "Primary"].value_counts())
+        },
+        "Secondary":{
+            "Grades" : list(ofsted_data["Overall_effectiveness"].loc[ofsted_data['Ofsted_phase'] == "Secondary"].value_counts().index),
+            "Values" : list(ofsted_data["Overall_effectiveness"].loc[ofsted_data['Ofsted_phase'] == "Secondary"].value_counts())
         }
+    }
 
     file1 = open('static/weblink_JSON.json', 'w')
     file1.write(json.dumps(web_link))

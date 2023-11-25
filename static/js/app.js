@@ -3,6 +3,11 @@ let zoomLevel = 8;
 
 const jsonFile = "../static/ofsted_data.json";
 
+/////////////////////////////////////////////////////////////////
+// Dashboard Initialization
+/////////////////////////////////////////////////////////////////
+
+
 // Function to initialize the dashboard
 function init(){
 
@@ -164,33 +169,53 @@ function initMarkers(){
     });
 };
 
+/////////////////////////////////////////////////////////////////
+// Plot Generating Functions
+/////////////////////////////////////////////////////////////////
+
 function genBarChart(){
 
     // Call JSON
     d3.json("../static/ofstedcounts_JSON.json").then((data) => {
         //console.log(data);
 
-        let grades = data.Grades;
-        let values = data.Values
+        let primary = data.Primary;
+        let secondary = data.Secondary;
 
-        let barTrace = {
-            x : grades,
-            y : values,
-            type: "bar"
+        let barTrace1 = {
+            x : primary.Grades,
+            y : primary.Values,
+            type: "bar",
+            name: "Primary"
+        };
+
+        let barTrace2 = {
+            x : secondary.Grades,
+            y : secondary.Values,
+            type: "bar",
+            name: "Secondary"
         };
 
         // Create array
-        let barData = [barTrace];
+        let barData = [barTrace1,barTrace2];
 
         // Apply layout
         let barLayout = {
             title: "School Count per Ofsted Grade in West Midlands Region",
+            barmode: "stack",
             width: 600,
             margin:{
                 t : 30,
-                b: 30,
+                b: 50,
                 r : 10,
                 l: 50
+            },
+            legend:{
+                orientation:"v",
+                xanchor:"right",
+                yanchor:"top",
+                x:0.99,
+                y: 0.75
             }
         };
 
@@ -223,7 +248,7 @@ function genPieChart(){
 
         // Apply layout
         let pieLayout = {
-            title: "Ofsted Phases",
+            title: "Ofsted School Phases",
             width: 500,
             height: 500,
             margin:{
@@ -241,9 +266,5 @@ function genPieChart(){
 
     
 };
-
-genPieChart();
-
-genBarChart();
 
 init();
