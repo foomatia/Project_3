@@ -3,14 +3,24 @@ let zoomLevel = 8;
 
 const jsonFile = "../static/ofsted_data.json";
 
+/////////////////////////////////////////////////////////////////
+// Dashboard Initialization
+/////////////////////////////////////////////////////////////////
+
+
 // Function to initialize the dashboard
 function init(){
+
+    d3.select("#reset").attr("hidden", "hidden");
 
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {
 
         // Select the postcode dd menu
-        let county_dd = d3.selectAll("#a_region");
+        let county_dd = d3.selectAll("#a_region").html("");
+
+        // Add Select a Region
+        county_dd.append("option").attr("value","").text("Select a Region");
 
         // Loop through the data and create an array of each postcode
         let counties = [];
@@ -30,6 +40,9 @@ function init(){
     });
 
     initMarkers();
+
+    genBarChart();
+    genPieChart();
 
 };
 
@@ -75,8 +88,7 @@ function initMap(primary, secondary, westmids, county){
     
     // Set up a zoom handler to update conditional layers when the user zooms.
     var zoomHandler = function(event) {
-        var zoomLevel = myMap.getZoom();
-        console.log(zoomLevel);
+        var zoomLevel = myMap.getZoom();        
         layerGroup.updateConditionalLayers(zoomLevel);
      }
      myMap.on('zoomend', zoomHandler);
@@ -157,33 +169,53 @@ function initMarkers(){
     });
 };
 
+/////////////////////////////////////////////////////////////////
+// Plot Generating Functions
+/////////////////////////////////////////////////////////////////
+
 function genBarChart(){
 
     // Call JSON
     d3.json("../static/ofstedcounts_JSON.json").then((data) => {
         //console.log(data);
 
-        let grades = data.Grades;
-        let values = data.Values
+        let primary = data.Primary;
+        let secondary = data.Secondary;
 
-        let barTrace = {
-            x : grades,
-            y : values,
-            type: "bar"
+        let barTrace1 = {
+            x : primary.Grades,
+            y : primary.Values,
+            type: "bar",
+            name: "Primary"
+        };
+
+        let barTrace2 = {
+            x : secondary.Grades,
+            y : secondary.Values,
+            type: "bar",
+            name: "Secondary"
         };
 
         // Create array
-        let barData = [barTrace];
+        let barData = [barTrace1,barTrace2];
 
         // Apply layout
         let barLayout = {
             title: "School Count per Ofsted Grade in West Midlands Region",
-            width: "50%",
+            barmode: "stack",
+            width: 600,
             margin:{
                 t : 30,
-                b: 30,
+                b: 50,
                 r : 10,
                 l: 50
+            },
+            legend:{
+                orientation:"v",
+                xanchor:"right",
+                yanchor:"top",
+                x:0.99,
+                y: 0.75
             }
         };
 
@@ -195,6 +227,44 @@ function genBarChart(){
     
 };
 
-genBarChart();
+function genPieChart(){
+
+    // Call JSON
+    d3.json("../static/ofstedphase_JSON.json").then((data) => {
+        //console.log(data);
+
+        let phase = data.Phase;
+        let count = data.Count;
+
+        let pieTrace = {
+            values : count,
+            labels : phase,
+            type: "pie",
+            textinfo: "label+value"
+        };
+
+        // Create array
+        let pieData = [pieTrace];
+
+        // Apply layout
+        let pieLayout = {
+            title: "Ofsted School Phases",
+            width: 500,
+            height: 500,
+            margin:{
+                t : 30,
+                b: 30,
+                r : 10,
+                l: 50
+            }
+        };
+
+        // Render the plot
+        Plotly.newPlot("pie", pieData, pieLayout, {displayModeBar: false});
+    
+    })
+
+    
+};
 
 init();
