@@ -53,7 +53,7 @@ function regionUpdate(region){
         
         // Create all markers
         for (let i = 0; i < regionOnly.length; i++){
-            if (data[i].Local_authority === region){
+            if (regionOnly[i].Local_authority === region){
                 // Create marker
                 let marker = L.marker([regionOnly[i].lat, regionOnly[i].lon])
                 .bindPopup(`<h6>${regionOnly[i].School_name}</h6></hr>\
@@ -294,6 +294,7 @@ function schoolSelected(school){
 
         d3.select("#hide-hr").attr("hidden", null);
         d3.select("#schoolTable").attr("hidden", null);
+        d3.select("#hide-table").attr("hidden", null);
         
         // Add school heading
         d3.select("#school-title").html(`${school_details[0].School_name} Details`)

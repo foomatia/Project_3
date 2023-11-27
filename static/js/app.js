@@ -16,7 +16,7 @@ function init(){
     d3.select("#school").attr("hidden", "hidden");
     d3.select("#sm-school").attr("hidden","hidden");
     d3.select("#hide-hr").attr("hidden", "hidden");
-    d3.select("#schoolTable").attr("hidden", "hidden")
+    d3.select("#hide-table").attr("hidden", "hidden");
 
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {
