@@ -12,6 +12,8 @@ const jsonFile = "../static/ofsted_data.json";
 function init(){
 
     d3.select("#reset").attr("hidden", "hidden");
+    d3.select("#school").attr("hidden", "hidden");
+    d3.select("#sm-school").attr("hidden","hidden");
 
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {

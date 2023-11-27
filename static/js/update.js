@@ -5,6 +5,7 @@ function regionUpdate(region){
 
     const jsonFile = "../static/ofsted_data.json"  
 
+    // Clear the current map contents ready to be re-initialized
     var container = L.DomUtil.get('map-id');
     if(container != null){
         container._leaflet_id = null;
@@ -12,6 +13,8 @@ function regionUpdate(region){
         // https://stackoverflow.com/a/50034912/21871037
 
     d3.select("#reset").attr("hidden", null);
+    d3.select("#school").attr("hidden", null);
+    d3.select("#sm-school").attr("hidden", null);
 
     // lowercase and space removed region
     let reg_file = region.toLowerCase().replaceAll(" ","_");
