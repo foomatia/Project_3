@@ -290,7 +290,7 @@ function schoolSelected(school){
 
         // Get School, region Details
         let school_details = data.filter((data) => data.School_name === school);
-        let region_details = data.filter((d) => d.Local_authority == school_details[0].Local_authority);
+        let region_details = data.filter((d) => d.Local_authority === school_details[0].Local_authority);
 
         d3.select("#hide-hr").attr("hidden", null);
         d3.select("#schoolTable").attr("hidden", null);
