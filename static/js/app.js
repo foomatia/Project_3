@@ -12,6 +12,8 @@ const jsonFile = "../static/ofsted_data.json";
 function init(){
 
     d3.select("#reset").attr("hidden", "hidden");
+    d3.select("#school").attr("hidden", "hidden");
+    d3.select("#sm-school").attr("hidden","hidden");
 
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {
@@ -173,6 +175,7 @@ function initMarkers(){
 // Plot Generating Functions
 /////////////////////////////////////////////////////////////////
 
+// Generate BarChart
 function genBarChart(){
 
     // Call JSON
@@ -215,7 +218,8 @@ function genBarChart(){
                 xanchor:"right",
                 yanchor:"top",
                 x:0.99,
-                y: 0.75
+                y: 0.75,
+                traceorder: "normal"
             }
         };
 
@@ -227,6 +231,7 @@ function genBarChart(){
     
 };
 
+// Generate Pie Chart
 function genPieChart(){
 
     // Call JSON
