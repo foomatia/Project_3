@@ -30,21 +30,21 @@ We obtained a substantial dataset from gov.uk, consisting of more than 22,000 ro
 ## SQLite Creation
 The Cleaned_Dataset was initially loaded into a CSV file and subsequently transformed into an SQLite database named "ofsted_results". Within this database, a table named "ofsted_data" was established, with all the requisite columns for further analysis.
 
-## Flask App 
- Through Visual Studio Code, we established a connection to the "ofsted_results" database and created a Flask API. This API was built utilizing JSON files generated from the aforementioned database.
+## Flask API
+ Through Visual Studio Code, we established a connection to the "ofsted_results" database and created a Flask API named app_solution_project3 . This API was built utilizing JSON files generated from the aforementioned database.
 
 ## Dashboard 
+The dashboard displays a map highlighting West Midlands. There is a drop down menu to schools per region. Zooming into the map takes you to a visual of the schools pinned on location. If you further hover on the pins a pop up shows the school name, URN, Ofsted rating including a website link to the Ofsted rating. It also displays a stacked bar chart and pie chart with the school analysis. These can also be hovered on to show number of schools for each rating group.
+![Alt text](MapLayers.gif)
 ## Results & Conclusion 
-Our analysis showed there are 2192 Primary and Secondary schools in the West Midlands. Most of the schools in the West Midlands have a rating of "Good" (1603 schools)
-![Alt text](Analysis_of_ratings.PNG)
+Our examination revealed that the West Midlands is home to a total of 2,192 primary and secondary schools. Among these, 19.1% (418) are classified as secondary schools, while a substantial 80.9% (1,774) are primary schools. In the secondary education, there are 53 schools with a "Good" rating, 51 schools marked as "Requires Improvement," 23 schools labeled "Inadequate," and an impressive 53 schools achieving an "Outstanding" rating.
+
+In the primary education sector, a significant majority of 1,318 schools have received a "Good" rating from Ofsted. Furthermore, 237 schools have been recognized as "Outstanding," 163 schools are categorized as "Requires Improvement," and 46 schools have been rated as "Inadequate".
+
+
+![Alt text](Charts-1.PNG)
+
 
 This project is Built with
-Python
-Flask
-SQLite
-HTML
-CSS
-JavaScript
-D3
-Getting Started:
-ETL.ipynb
+Python, Flask API, SQLite, HTML, CSS, JavaScript, D3 leaflet and additional layers.
+
