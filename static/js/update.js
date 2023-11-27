@@ -53,9 +53,9 @@ function regionUpdate(region){
         
         // Create all markers
         for (let i = 0; i < regionOnly.length; i++){
-            if (regionOnly[i].Local_authority === region){
+            if (data[i].Local_authority === region){
                 // Create marker
-                let marker = L.marker([regionOnly[i].lat, data[i].lon])
+                let marker = L.marker([regionOnly[i].lat, regionOnly[i].lon])
                 .bindPopup(`<h6>${regionOnly[i].School_name}</h6></hr>\
                 <b>URN:</b> ${regionOnly[i].URN}</br>\
                 <b>Ofsted Rating:</b> ${regionOnly[i].Overall_effectiveness}</br>\
