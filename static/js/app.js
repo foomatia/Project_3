@@ -229,7 +229,11 @@ function genBarChart(){
                 traceorder: "normal"
             },
             paper_bgcolor:"#EAEEE8",
-            plot_bgcolor:"#EAEEE8"
+            plot_bgcolor:"#EAEEE8",
+            xaxis:{
+                categoryorder: "array",
+                categoryarray: ["Outstanding", "Good", "Requires Improvement", "Inadequate"]
+            }
         };
 
         // Render the plot
