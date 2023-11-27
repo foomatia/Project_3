@@ -11,9 +11,12 @@ const jsonFile = "../static/ofsted_data.json";
 // Function to initialize the dashboard
 function init(){
 
+    // Hide unrequired DIVs
     d3.select("#reset").attr("hidden", "hidden");
     d3.select("#school").attr("hidden", "hidden");
     d3.select("#sm-school").attr("hidden","hidden");
+    d3.select("#hide-hr").attr("hidden", "hidden");
+    d3.select("#myTable").attr("hidden", "hidden")
 
     // Fetch the JSON data
     d3.json(jsonFile).then((data) => {
@@ -67,17 +70,13 @@ function initMap(primary, secondary, westmids, county){
         Secondary: secondary
     };
 
-    var mapsPlaceholder = [];
-
     // Create the map object with options.
     let myMap = L.map("map-id", {
         center : westMids,
         zoom: zoomLevel,
         layers: [street]
-  })
-    .addInitHook(function () {
-        mapsPlaceholder.push(this); // Use whatever global scope variable you like.
-    });
+  });
+
 
     // Create individual Conditionals Layers
     let layer1 = primary;

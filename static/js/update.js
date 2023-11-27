@@ -288,15 +288,47 @@ function schoolSelected(school){
 
     d3.json(jsonFile).then((data) => {
 
-        // Get School Details
+        // Get School, region Details
         let school_details = data.filter((data) => data.School_name === school);
+        let region_details = data.filter((d) => d.Local_authority == school_details[0].Local_authority);
 
-        // // Get map reference
-        // let myMap = mapsPlaceholder.pop();
+        d3.select("#hide-hr").attr("hidden", null);
+        d3.select("#schoolTable").attr("hidden", null);
+        
+        // Add school heading
+        d3.select("#school-title").html(`${school_details[0].School_name} Details`)
+        // Populate a School table
+        let tabData = [{
+            type: 'table',
+            header:{
+                values: [["Description"], ["Result"]],
+                align:"center",
+                line: {width: 1, color:'black'},
+                fill: {color:"grey"},
+                font: {color: "white"}
+            },
+            cells:{
+                values: [["URN", "Ofsted Phase", "Ofsted Region", "Local Authority", "Postcode", "Number of Pupils", "Overall Effectiveness", "Category of Conern", "Quality of Education", "Behaviour and Attitudes", "Person Development", "Leadership and Management", "Safeguarding Effective"],[school_details[0].URN, school_details[0].Ofsted_phase , school_details[0].Ofsted_region , school_details[0].Local_authority , school_details[0].Postcode , school_details[0].Total_number_of_pupils , school_details[0].Overall_effectiveness , school_details[0].Category_of_conern , school_details[0].Qaulity_of_education, school_details[0].Behaviour_and_attitudes, school_details[0].Personal_development, school_details[0].Effectiveness_of_leadership_and_management,school_details[0].Safeguarding_is_effective]],
+                align: "center",
+                line: {width: 1, color:'black'},
+                fill: {color:"#EAEEE8"}
+            }
+        }];
 
-        // // Pan Map to lat,lng
-        // myMap.panTo([school_details.lat,school_details.lon]);
+        let tabLayout = {
+            width : 400,
+            height: 380,
+            margin: {
+                t: 25,
+                b: 25,
+                l: 10,
+                r:10
+            },
+            paper_bgcolor:"#EAEEE8"
+        }
 
-    })
+        Plotly.newPlot('schoolTable', tabData, tabLayout);
 
-}
+    });
+
+};
