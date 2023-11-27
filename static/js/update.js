@@ -1,5 +1,8 @@
 function regionUpdate(region){
 
+    // Check if the dropdown region selected is not empty
+    if (region != "") {
+
     const jsonFile = "../static/ofsted_data.json"  
 
     var container = L.DomUtil.get('map-id');
@@ -103,5 +106,7 @@ function updateMap(prime, secon, reg, lat_lon){
  
      // Set initial state of conditional layers
      layerGroup.updateConditionalLayers(myMap.getZoom());
+
+    };
 
 }

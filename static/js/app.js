@@ -173,6 +173,7 @@ function initMarkers(){
 // Plot Generating Functions
 /////////////////////////////////////////////////////////////////
 
+// Generate BarChart
 function genBarChart(){
 
     // Call JSON
@@ -215,7 +216,8 @@ function genBarChart(){
                 xanchor:"right",
                 yanchor:"top",
                 x:0.99,
-                y: 0.75
+                y: 0.75,
+                traceorder: "normal"
             }
         };
 
@@ -227,6 +229,7 @@ function genBarChart(){
     
 };
 
+// Generate Pie Chart
 function genPieChart(){
 
     // Call JSON
