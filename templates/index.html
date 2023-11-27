@@ -31,12 +31,12 @@
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 
   </head>
-  <body>
+  <body class="py-3" style="background-color: #ced2cc;">
     <div class="container">
-      <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <header style="background-color: #EAEEE8; border-radius: 5px;" class="d-flex flex-wrap justify-content-center py-3 mb-4 border border-dark-subtle">
         <span class="fs-4">West Midlands Ofsted Results</span>
       </header>
-      <div class="btn-group w-100 align-items-center justify-content-between flex-wrap">
+      <div  style="background-color: #EAEEE8;" class="border border-dark-subtle btn-group w-100 align-items-center justify-content-between flex-wrap p-3">
         <div class="dropdown">
           <small for="a_region">Search Authority Region:</small> <br>
           <select id="a_region" onchange="regionUpdate(this.value)">
@@ -51,26 +51,36 @@
             <button id="reset" type="button" class="btn btn-danger" onclick="init()">Reset Dashboard</button>      
         </div>
       </div>
+      <!-- Create divider between header and main content -->
+      <hr/>
+
     </div>
-    <!-- Create divider between header and main content -->
-    <div class="vr" style="height: 30px;"></div>
+    
     <!-- Main content start -->
     <div class="container">
       <main>
         <!-- Map -->
-        <div alt="Map" id="map-id"></div>
+        <div class="border border-dark-subtle" style="border-radius: 5px;" id="map-id"></div>
 
-        <!-- Create divider between map and charts content -->
+        <!-- Create divider between map and table content -->
+        <div id="hide-hr"><hr/></div>
+        <div class="container">
+          <div class="row">          
+            <div style="background-color: #EAEEE8; border-radius: 5px;" class="border border-dark-subtle d-flex justify-content-center" id="myTable">Text Here</div>
+          </div>
+        </div>
+
+        <!-- Create divider between table and charts content -->
         <hr/>
                 
         <!-- Charts -->
         <div class="container text-center">
           <div class="row">
             <div class="col-md-6">
-              <div id="bar"></div>
+              <div style="background-color: #EAEEE8; border-radius: 5px;" class="border border-dark-subtle d-flex justify-content-center" id="bar"></div>
             </div>
             <div class="col-md-6">
-              <div id="pie"></div>
+              <div style="background-color: #EAEEE8; border-radius: 5px;" class="border border-dark-subtle d-flex justify-content-center" id="pie"></div>
             </div>
           </div>          
         </div>

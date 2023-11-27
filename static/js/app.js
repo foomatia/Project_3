@@ -57,15 +57,15 @@ function initMap(primary, secondary, westmids, county){
     });
 
     // Create a baseMaps object to hold the lightmap layer.
-    // let baseMaps = {
-    //     Street : street
-    // };
+    let baseMaps = {
+        Street : street
+    };
 
-    // // Create an overlayMaps object to hold the markers layers.
-    // let overlayMaps = {
-    //     Primary: primary,
-    //     Secondary: secondary
-    // };
+    // Create an overlayMaps object to hold the markers layers.
+    let overlayMaps = {
+        Primary: primary,
+        Secondary: secondary
+    };
 
     // Create the map object with options.
     let myMap = L.map("map-id", {
@@ -85,7 +85,7 @@ function initMap(primary, secondary, westmids, county){
                                 .addConditionalLayer((level) => level <= 9, layer3)
                                 .addConditionalLayer((level) => level >= 9 && level <= 12, layer4)
                                 .addConditionalLayer((level) => level >= 12, layer1)
-                                .addConditionalLayer((level) => level >= 12, layer2)
+                                .addConditionalLayer((level) => level >= 12, layer2)                                
                                 .addTo(myMap);
     
     // Set up a zoom handler to update conditional layers when the user zooms.
@@ -99,9 +99,11 @@ function initMap(primary, secondary, westmids, county){
      layerGroup.updateConditionalLayers(myMap.getZoom());
 
     // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
-    // L.control.layers(baseMaps, overlayMaps,{
-    //     collapsed:false
-    // }).addTo(myMap);
+    L.control.layers(baseMaps, overlayMaps,{
+        collapsed:false,
+        hideSingleBase: true,
+    }).addTo(myMap);
+    
 };
 
 // Function to gen initMarkers
@@ -207,8 +209,9 @@ function genBarChart(){
             title: "School Count per Ofsted Grade in West Midlands Region",
             barmode: "stack",
             width: 600,
+            height: 450,
             margin:{
-                t : 30,
+                t : 50,
                 b: 50,
                 r : 10,
                 l: 50
@@ -220,7 +223,9 @@ function genBarChart(){
                 x:0.99,
                 y: 0.75,
                 traceorder: "normal"
-            }
+            },
+            paper_bgcolor:"#EAEEE8",
+            plot_bgcolor:"#EAEEE8"
         };
 
         // Render the plot
@@ -255,13 +260,15 @@ function genPieChart(){
         let pieLayout = {
             title: "Ofsted School Phases",
             width: 500,
-            height: 500,
+            height: 450,
             margin:{
-                t : 30,
+                t : 50,
                 b: 30,
                 r : 10,
                 l: 50
-            }
+            },
+            paper_bgcolor:"#EAEEE8",
+            plot_bgcolor:"#EAEEE8"
         };
 
         // Render the plot
