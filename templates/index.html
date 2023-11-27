@@ -45,7 +45,7 @@
         </div>
         <div class="dropdown">
             <small id="sm-school" for="school">Select a School:</small> <br>
-            <select id="school"></select>        
+            <select id="school" onchange="schoolSelected(this.value)"></select>        
         </div>
         <div class="dropdown">           
             <button id="reset" type="button" class="btn btn-danger" onclick="init()">Reset Dashboard</button>      
@@ -66,7 +66,7 @@
         <div id="hide-hr"><hr/></div>
         <div class="container">
           <div class="row">          
-            <div style="background-color: #EAEEE8; border-radius: 5px;" class="border border-dark-subtle d-flex justify-content-center" id="myTable">Text Here</div>
+            <div style="background-color: #EAEEE8; border-radius: 5px;" class="border border-dark-subtle d-flex justify-content-center" id="myTable">Table Here</div>
           </div>
         </div>
 

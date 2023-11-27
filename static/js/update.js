@@ -27,15 +27,24 @@ function regionUpdate(region){
     .then(([data, geoData]) => {
 
         let regionOnly = data.filter((data) => data.Local_authority === region);
-        let regionOnlySorted = regionOnly.sort((a,b) => a.School_name-b.School_name);
 
         // Populate school dropdown
+
+        // Create a list for SchoolNames
+        let school_nmes = [];
+
+        // Loop and append schools
+        for (let school in regionOnly){
+            school_nmes.push(regionOnly[school].School_name);
+        }
+
+        let school_nmes_sorted = school_nmes.sort();
+        
         // Clear the current list
         d3.select("#school").html("");
-        // Create a school name list
-        let school_nmes = [];
-        for (let school in regionOnlySorted){
-            d3.select("#school").append("option").attr("value", `${regionOnly[school].URN}`).text(`${regionOnly[school].School_name}`);
+
+        for (let school in school_nmes_sorted){
+            d3.select("#school").append("option").attr("value", `${school_nmes_sorted[school]}`).text(`${school_nmes_sorted[school]}`);
         };
 
         // Create prim and secon arrays
@@ -268,6 +277,25 @@ function genRegionBarPieChart(region){
 
         // Render the plot
         Plotly.newPlot("pie", pieData, pieLayout, {displayModeBar: false});
+
+    })
+
+};
+
+function schoolSelected(school){
+
+    const jsonFile = "../static/ofsted_data.json";
+
+    d3.json(jsonFile).then((data) => {
+
+        // Get School Details
+        let school_details = data.filter((data) => data.School_name === school);
+
+        // // Get map reference
+        // let myMap = mapsPlaceholder.pop();
+
+        // // Pan Map to lat,lng
+        // myMap.panTo([school_details.lat,school_details.lon]);
 
     })
 
